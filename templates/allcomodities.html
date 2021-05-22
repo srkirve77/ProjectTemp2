@@ -50,6 +50,28 @@
         .navbar-container > a:hover{
             color : rgb(0, 132, 255);
         }
+
+        h5{
+            font-size : 40px;
+            text-align : center;
+            margin : 30px;
+            font-weight : 600;
+        }
+
+        .row{
+            padding : 20px 40px;
+        }
+
+        .image{
+            width : 100%;
+            max-height : 300px;
+        }
+
+        .card:hover{
+            box-shadow : 0 0 15px 10px rgb(211, 211, 211);
+        }
+
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         
@@ -61,167 +83,15 @@
         <a href = "http://localhost:5000/">Home</a>
         <a href = "http://localhost:5000/about">About</a>
         <a href = "http://localhost:5000/topgainerslosers">Top Gainers/ Losers</a>
-        <a href = "http://localhost:5000/allcomodity">All Comodities</a>
+        <a href = "http://localhost:5000/allcomodities">All Comodities</a>
     </div>
 
-
-	<div class="nav-wrapper">
-		<h3 class="card-panel #000 amber lighten-2 center valign-wrapper center">
-            <span>CROP PRICE PREDICTOR</span></a>
-        </h3>
-	</div>
-
-    <div class="row">
-    <div class="card-panel col s9">
-         <h4 class="heading #e0f7fa cyan lighten-5">Top Gainers(Current trends)</h4>
-      <table class="striped">
-        <thead>
-          <tr>
-              <th>Item Name</th>
-              <th>Price (per Qtl.)</th>
-              <th>Change</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        {% for item in context['top5'] %}
-          <tr>
-            <td>{{item[0]}}</td>
-            <td>₹{{item[1]}}</td>
-            <td class="valign-wrapper">{{item[2]}}% <img src="../static/gain-icon.png" height="25" width="25"></td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-        <div class="card-panel">
-      <h4 class="heading #e0f7fa cyan lighten-5">Top Losers(Current trends)</h4>
-      <table class="striped">
-        <thead>
-          <tr>
-              <th>Item Name</th>
-              <th>Price (per Qtl.)</th>
-              <th>Change</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        {% for item in context['bottom5'] %}
-          <tr>
-            <td>{{item[0]}}</td>
-            <td>₹{{item[1]}}</td>
-            <td class="valign-wrapper">{{item[2]}}% <img src="../static/loss-icon.png" height="25" width="25"></td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-            </div>
-    </div>
-    <div class="col s3">
-      <div class="card grey lighten-3">
-        <div class="card-content black-text">
-          <h6>Star Commodity Prediction</h6>
-           <span class="card-title" id="time">{{context.sixmonths[0][0]}}</span>
-          <table class="valign-wrapper">
-            <tr>
-              <td><h5 id="crop1">{{context.sixmonths[0][1]}}</h5></td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td class="right">
-                  <h4 id="price1">₹{{context.sixmonths[0][2]}}</h4>
-              <p id="pos-change" class="valign-wrapper right">{{context.sixmonths[0][3]}}%</p><img id="change1" src="../static/gain-icon.png" height="20" width="20" style="{margin-left: 5;}"></td>
-
-            </tr>
-            <tr>
-              <td><h5 id="crop2">{{context.sixmonths[0][4]}}</h5></td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td class="right"><h4 id="price2">₹{{context.sixmonths[0][5]}}</h4>
-              <p id="neg-change" class="valign-wrapper right">{{context.sixmonths[0][6]}}%</p><img id="change2" src="../static/loss-icon.png" height="20" width="20" style="{margin-left: 5;}">
-                </td>
-            </tr>
-          </table>
-          <script>
-            function sleep(ms) {
-              return new Promise(resolve => setTimeout(resolve, ms));
-             }
-            function updateTime(i){
-              $('#time').load('http://localhost:5000/ticker/'+0+ '/' + i);
-            }
-
-            function updateCrop1(i){
-              $('#crop1').load('http://localhost:5000/ticker/'+ 1 + '/' + i);
-            }
-
-            function updatePrice1(i){
-              $('#price1').load('http://localhost:5000/ticker/'+ 2 + '/' + i);
-            }
-
-            function updateChange1(i){
-              $("#change1").attr("src","../static/gain-icon.png");
-              $('#pos-change').load('http://localhost:5000/ticker/'+ 3 + '/'  + i);
-
-            }
-
-            function updateCrop2(i){
-              $('#crop2').load('http://localhost:5000/ticker/'+ 4 + '/'  + i);
-            }
-
-            function updatePrice2(i){
-              $('#price2').load('http://localhost:5000/ticker/'+ 5 + '/'  + i);
-            }
-
-            function updateChange2(i){
-              $("#change2").attr("src","../static/loss-icon.png");
-              $('#neg-change').load('http://localhost:5000/ticker/'+ 6 + '/'  + i);
-
-            }
-          </script>
-
-            <script>
-                    var i = 0
-                    setInterval(async function(){
-                    i = (i+1)%5;
-                    updateTime(i);
-
-                    updateCrop1(i);
-                    await sleep(200);
-
-                    updatePrice1(i);
-                    await sleep(200);
-
-                    updateChange1(i);
-                    await sleep(200);
-
-                    updateCrop2(i);
-                    await sleep(200);
-
-                    updatePrice2(i);
-                    await sleep(200);
-
-                    updateChange2(i);
-                    await sleep(200);
-
-                    /*
-                    setTimeout(updateCrop1(i), 100);
-                    setTimeout(updatePrice1(i), 300);
-                    setTimeout(updateChange1(i), 500);
-                    setTimeout(updateCrop2(i), 700);
-                    setTimeout(updatePrice2(i), 800);
-                    setTimeout(updateChange2(i), 900);
-                    */
-
-                    }, 4000);
-
-            </script>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <h5>Explore by commodity</h5>
-  <div class="row">
+  <h5 >Explore by commodity</h5>
+  <div class="comodity-container row">
     <div class="col s3">
       <a href="http://localhost:5000/commodity/paddy" style="color: #000000">
       <div class="card grey lighten-4">
+          <img class = "image" src = "../static/images/paddy.jpg">
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/rice-bowl.png">
@@ -236,6 +106,7 @@
      <div class="col s3">
       <a href="http://localhost:5000/commodity/wheat" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/wheat.jpg">
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/wheat.png">
@@ -249,6 +120,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/barley" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/barley.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/barley.png">
@@ -262,6 +135,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/soyabean" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/soyabean.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/soy.png">
@@ -278,6 +153,8 @@
     <div class="col s3">
       <a href="http://localhost:5000/commodity/cotton" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/paddy.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/cotton.png">
@@ -292,6 +169,8 @@
      <div class="col s3">
       <a href="http://localhost:5000/commodity/copra" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/coconut.jpeg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/coconut.png">
@@ -305,6 +184,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/groundnut" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/groundnut.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/peanuts.png">
@@ -318,6 +199,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/rape" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/mustard.jpeg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://image.flaticon.com/icons/svg/188/188317.svg">
@@ -334,6 +217,8 @@
     <div class="col s3">
       <a href="http://localhost:5000/commodity/sesamum" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/sesamum.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/sesame.png">
@@ -348,6 +233,8 @@
      <div class="col s3">
       <a href="http://localhost:5000/commodity/gram" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/gram.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -361,6 +248,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/sugarcane" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/sugarcane.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/bamboo.png">
@@ -374,6 +263,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/arhar" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/arhar.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -390,6 +281,8 @@
     <div class="col s3">
       <a href="http://localhost:5000/commodity/ragi" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/ragi.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/office/48/000000/wheat.png">
@@ -404,6 +297,8 @@
      <div class="col s3">
       <a href="http://localhost:5000/commodity/maize" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/maize.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/corn.png">
@@ -417,6 +312,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/moong" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/paddy.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -430,6 +327,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/masoor" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/masoor.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -446,6 +345,8 @@
     <div class="col s3">
       <a href="http://localhost:5000/commodity/urad" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/urad.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -460,6 +361,8 @@
      <div class="col s3">
       <a href="http://localhost:5000/commodity/jute" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/jute.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/potato.png">
@@ -473,6 +376,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/niger" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/niger.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
@@ -483,39 +388,31 @@
         </div>
       </div>
     </a>
-    </div> <div class="col s3">
-      <a href="http://localhost:5000/commodity/safflower" style="color: #000000">
-      <div class="card grey lighten-4">
-        <div class="card-content row valign-wrapper">
-          <div class="col s3">
-          <img src="https://img.icons8.com/color/48/000000/paper-bag-with-seeds.png">
+    </div> 
+    <div class="col s3">
+        <a href="http://localhost:5000/commodity/sunflower" style="color: #000000">
+        <div class="card grey lighten-4">
+          <img class = "image" src = "../static/images/sunflower.jpg">
+  
+          <div class="card-content row valign-wrapper">
+            <div class="col s3">
+            <img src="https://img.icons8.com/color/48/000000/potato.png">
+          </div>
+          <div class="col s9">
+            <span class="card-title">Sunflower</span>
+          </div>
+          </div>
         </div>
-        <div class="col s9">
-          <span class="card-title">Kardi Seed</span>
-        </div>
-        </div>
+      </a>
       </div>
-    </a>
-    </div>
   </div>
     <div class="row">
-    <div class="col s3">
-      <a href="http://localhost:5000/commodity/sunflower" style="color: #000000">
-      <div class="card grey lighten-4">
-        <div class="card-content row valign-wrapper">
-          <div class="col s3">
-          <img src="https://img.icons8.com/color/48/000000/potato.png">
-        </div>
-        <div class="col s9">
-          <span class="card-title">Sunflower</span>
-        </div>
-        </div>
-      </div>
-    </a>
-    </div>
+   
      <div class="col s3">
       <a href="http://localhost:5000/commodity/jowar" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/jowar.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/potato.png">
@@ -529,6 +426,8 @@
     </div> <div class="col s3">
       <a href="http://localhost:5000/commodity/bajra" style="color: #000000">
       <div class="card grey lighten-4">
+        <img class = "image" src = "../static/images/bajra.jpg">
+
         <div class="card-content row valign-wrapper">
           <div class="col s3">
           <img src="https://img.icons8.com/color/48/000000/potato.png">

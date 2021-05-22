@@ -123,6 +123,15 @@ class Commodity:
 
 
 @app.route('/')
+def index2():
+    context = {
+        "top5": TopFiveWinners(),
+        "bottom5": TopFiveLosers(),
+        "sixmonths": SixMonthsForecast()
+    }
+    return render_template('index.html', context=context)
+
+@app.route('/about')
 def index():
     context = {
         "top5": TopFiveWinners(),
@@ -130,6 +139,29 @@ def index():
         "sixmonths": SixMonthsForecast()
     }
     return render_template('index.html', context=context)
+
+
+@app.route('/topgainerslosers')
+def fun():
+    context = {
+        "top5": TopFiveWinners(),
+        "bottom5": TopFiveLosers(),
+        "sixmonths": SixMonthsForecast()
+    }
+    return render_template('topgainerslosers.html' , context= context)
+
+
+@app.route('/allcomodity')
+def fun23():
+    context = {
+        "top5": TopFiveWinners(),
+        "bottom5": TopFiveLosers(),
+        "sixmonths": SixMonthsForecast()
+    }
+    return render_template('allcomodities.html' , context= context)
+
+
+
 
 
 @app.route('/commodity/<name>')

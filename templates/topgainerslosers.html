@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crop Price Predictor</title>
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;600;800&display=swap" rel="stylesheet"> 
+
+
+  <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <!-- Compiled and minified JavaScript -->
+    <style>
+        *{
+            font-family: 'Montserrat', sans-serif;
+        }
+        div.main {
+            padding: 5px 50px 75px 50px;
+        }
+
+        span,img {
+            vertical-align: middle;
+         }
+
+        .brand-logo > span,.brand-logo > img {
+            vertical-align: middle;
+        }
+
+        .heading{
+            padding : 20px;
+        }
+
+
+        .navbar-container{
+            height : 100px;
+            display : flex;
+            justify-content: flex-end;
+            padding-right : 40px;
+        }
+        .navbar-container > a{
+            margin-left : 50px;
+            font-size : 20px;
+            color : black;
+            line-height: 100px;
+        }
+        .navbar-container > a:hover{
+            color : rgb(0, 132, 255);
+        }
+        .top-gainer-container{
+            width : 70%;
+            margin : auto;
+        }
+
+        .top-gainer{
+            background-color: #2ecc71;
+            color : black;
+            padding : 20px;
+            font-size : 40px;
+        }
+
+        .top-loser{
+            background-color: #e74c3c;
+            color : black;
+            padding : 20px;
+            font-size : 40px;
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+</head>
+<body class="main">
+  <div>
+
+    <div class = "navbar-container">
+        <a href = "http://localhost:5000/">Home</a>
+        <a href = "http://localhost:5000/about">About</a>
+        <a href = "http://localhost:5000/topgainerslosers">Top Gainers/ Losers</a>
+        <a href = "http://localhost:5000/allcomodity">All Comodities</a>
+    </div>
+
+
+    <div class="row">
+    <div class="top-gainer-container ">
+         <h4 class="top-gainer">Top Gainers(Current trends)</h4>
+      <table class="striped">
+        <thead>
+          <tr>
+              <th>Item Name</th>
+              <th>Price (per Qtl.)</th>
+              <th>Change</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for item in context['top5'] %}
+          <tr>
+            <td>{{item[0]}}</td>
+            <td>₹{{item[1]}}</td>
+            <td class="valign-wrapper">{{item[2]}}% <img src="../static/gain-icon.png" height="25" width="25"></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+        <div class="top-loser-container">
+      <h4 class="top-loser">Top Losers(Current trends)</h4>
+      <table class="striped">
+        <thead>
+          <tr>
+              <th>Item Name</th>
+              <th>Price (per Qtl.)</th>
+              <th>Change</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for item in context['bottom5'] %}
+          <tr>
+            <td>{{item[0]}}</td>
+            <td>₹{{item[1]}}</td>
+            <td class="valign-wrapper">{{item[2]}}% <img src="../static/loss-icon.png" height="25" width="25"></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+            </div>
+    </div>
+  
+
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+    $('.slider').slider({full_width :true});
+  });
+</script>
+  </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>
