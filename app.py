@@ -124,21 +124,11 @@ class Commodity:
 
 @app.route('/')
 def index2():
-    context = {
-        "top5": TopFiveWinners(),
-        "bottom5": TopFiveLosers(),
-        "sixmonths": SixMonthsForecast()
-    }
-    return render_template('index.html', context=context)
+    return render_template('index.html')
 
 @app.route('/about')
 def index():
-    context = {
-        "top5": TopFiveWinners(),
-        "bottom5": TopFiveLosers(),
-        "sixmonths": SixMonthsForecast()
-    }
-    return render_template('index.html', context=context)
+    return render_template('about.html')
 
 
 @app.route('/topgainerslosers')
